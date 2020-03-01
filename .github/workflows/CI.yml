@@ -33,6 +33,7 @@ jobs:
       run: dotnet test
     - name: Archive test artifacts
       uses: actions/upload-artifact@v1
+      if: failure()
       with:
         name: Images
         path: Desktop.Tests/Images
