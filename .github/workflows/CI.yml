@@ -31,3 +31,8 @@ jobs:
       shell: cmd
     - name: Run Tests
       run: dotnet test
+    - name: Archive test artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: Images
+        path: Desktop.Tests/Images
