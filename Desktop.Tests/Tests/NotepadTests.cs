@@ -44,7 +44,12 @@ namespace Desktop.Tests
         public void TypeTextShouldSetText()
         {
             notepad.TypeText("Smoke test!");
-            notepad.Match("notepad_with_text", timeout: 5, tolerance: 0.01);
+            // Notes:
+            // Tests executed as part of GitHub Actions run on Windows server.
+            // I'm using Windows 10 workstation.
+            // Application menu on Windows server is white, on Windows 10 is blue.
+            // If testing on same OS then you can use tolerance 0.1 or even lower.
+            notepad.Match("notepad_with_text", timeout: 5, tolerance: 5);
         }
 
         [Test]
