@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches:    
+      - master  
+  pull_request:
+    types: [assigned, opened, synchronize, reopened]
+  schedule:
+    - cron:  '0 0 * * *'
+
+jobs:
+  tests-windows:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Node JS
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.100'
+    - name: Setup Machine
+      run: call Scripts\SetupMachine.bat
+      shell: cmd
+    - name: Install Appium
+      run: call Scripts\InstallAppium.bat
+      shell: cmd
+    - name: Run Tests
+      run: dotnet test
+    - name: Archive test artifacts
+      uses: actions/upload-artifact@v1
+      if: failure()
+      with:
+        name: Images
+        path: Desktop.Tests/Images
