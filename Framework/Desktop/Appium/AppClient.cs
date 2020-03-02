@@ -11,13 +11,13 @@ using OpenQA.Selenium.Appium.Windows;
 
 namespace Framework.Appium
 {
-    public class WindowsClient
+    public class AppClient
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly AppiumLocalService service;
         private readonly Settings settings;
 
-        public WindowsClient(AppiumLocalService service, Settings settings)
+        public AppClient(AppiumLocalService service, Settings settings)
         {
             this.settings = settings;
             this.service = service;
@@ -33,7 +33,7 @@ namespace Framework.Appium
             // Verify Application exists
             Assert.IsTrue(File.Exists(settings.AppPath), "Application do not exists at: " + settings.AppPath);
 
-            // Create a new Appium session to launch Fiddler application
+            // Create a new Appium session to launch application under test
             AppiumOptions options = new AppiumOptions();
             options.AddAdditionalCapability("app", settings.AppPath);
             options.AddAdditionalCapability("deviceName", "WindowsPC");
@@ -47,7 +47,7 @@ namespace Framework.Appium
 
             // Start Appium clinet (and application under test)
             Driver = new WindowsDriver<WindowsElement>(service.ServiceUrl, options);
-            Log.Info("Start Appium Client.");
+            Log.Info("Start Appium session to app under test.");
 
             // Set implicit timeout to auto wait for element when try to find it
             Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(settings.Timeout);
@@ -66,11 +66,10 @@ namespace Framework.Appium
 
         public void Stop()
         {
-            // Stop Appium client
             if (Driver != null)
             {
                 Driver.Quit();
-                Log.Info("Stop Appium Client.");
+                Log.Info("Stop Appium session to app under test.");
             }
         }
     }

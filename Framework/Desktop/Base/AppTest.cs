@@ -2,6 +2,7 @@ using System.IO;
 using System.Reflection;
 using Framework.Utils;
 using log4net;
+using log4net.Config;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
@@ -17,6 +18,7 @@ namespace Framework.Desktop
         [OneTimeSetUp]
         public virtual void OneTimeSetUp()
         {
+            // Init Context
             // Init Context
             Context = new Context
             {
