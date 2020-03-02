@@ -15,7 +15,7 @@ namespace Desktop.Tests.Pages
 
         public void Exit()
         {
-            Context.App.Driver.CloseApp();
+            Context.App.CloseApp();
         }
     }
 }

@@ -1,10 +1,7 @@
 ﻿using System.Drawing;
-using System.IO;
 using System.Reflection;
 using Framework.Appium;
-using Framework.Utils;
 using log4net;
-using NUnit.Framework;
 using OpenQA.Selenium.Appium.Windows;
 
 namespace Framework.Desktop
@@ -15,11 +12,9 @@ namespace Framework.Desktop
 
         private readonly WindowsClient client;
         private readonly AppiumServer server;
-        private Settings settings;
 
         public App(Settings settings)
         {
-            this.settings = settings;
             server = new AppiumServer();
             client = new WindowsClient(server.Service, settings);
         }
@@ -28,39 +23,42 @@ namespace Framework.Desktop
 
         public string Title => Driver.Title;
 
-        public bool IsRunning
-        {
-            get
-            {
-                try
-                {
-                    _ = Title;
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-        }
+        public bool IsRunning => Driver.WindowHandles.Count > 0;
 
-        public void Start()
+        public void InitSession()
         {
             server.Start();
             client.Start();
             Driver = client.Driver;
         }
 
-        public void Stop()
+        public void QuitSession()
         {
             client.Stop();
             server.Stop();
         }
 
+        public void CloseApp()
+        {
+            Driver.CloseApp();
+            Log.Info("Close application.");
+        }
+
+        public void LaunchApp()
+        {
+            Driver.LaunchApp();
+            Log.Info("Launch application.");
+        }
+
         public void Restart()
         {
-            Stop();
-            Start();
+            if (IsRunning)
+            {
+                Driver.CloseApp();
+            }
+
+            Driver.LaunchApp();
+            Log.Info("Restart application.");
         }
 
         public void SetSize(int width, int height)

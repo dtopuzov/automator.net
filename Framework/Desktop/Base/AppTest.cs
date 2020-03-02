@@ -31,7 +31,7 @@ namespace Framework.Desktop
 
             // Init application and start it
             Context.App = new App(Context.Settings);
-            Context.App.Start();
+            Context.App.InitSession();
         }
 
         [SetUp]

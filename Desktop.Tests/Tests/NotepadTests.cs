@@ -21,7 +21,7 @@ namespace Desktop.Tests
         {
             if (!Context.App.IsRunning)
             {
-                Context.App.Driver.LaunchApp();
+                Context.App.LaunchApp();
             }
         }
 
@@ -46,10 +46,10 @@ namespace Desktop.Tests
             notepad.TypeText("Smoke test!");
             // Notes:
             // Tests executed as part of GitHub Actions run on Windows server.
-            // I'm using Windows 10 workstation.
-            // Application menu on Windows server is white, on Windows 10 is blue.
-            // If testing on same OS then you can use tolerance 0.1 or even lower.
-            notepad.Match("notepad_with_text", timeout: 5, tolerance: 10);
+            // I'm using my own Windows 10 workstation.
+            // Both machines use different themes and system fonts.
+            // If testing on same OS settings then you can use tolerance 0.1 or even lower.
+            notepad.Match("notepad_with_text", timeout: 5, tolerance: 5);
         }
 
         [Test]
