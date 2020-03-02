@@ -49,7 +49,7 @@ namespace Desktop.Tests
             // I'm using my own Windows 10 workstation.
             // Both machines use different themes and system fonts.
             // If testing on same OS settings then you can use tolerance 0.1 or even lower.
-            notepad.Match("notepad_with_text", timeout: 5, tolerance: 5);
+            notepad.Match("notepad_with_text", timeout: 5, tolerance: 10);
         }
 
         [Test]
