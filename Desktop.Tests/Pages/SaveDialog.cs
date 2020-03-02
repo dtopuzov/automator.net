@@ -1,6 +1,4 @@
 ﻿using Framework.Desktop;
-using OpenQA.Selenium.Support.UI;
-using System;
 
 namespace Desktop.Tests.Pages
 {
