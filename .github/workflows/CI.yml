@@ -30,7 +30,7 @@ jobs:
       run: call Scripts\InstallAppium.bat
       shell: cmd
     - name: Run Tests
-      run: dotnet test
+      run: dotnet test Desktop.Tests
     - name: Archive test artifacts
       uses: actions/upload-artifact@v1
       if: failure()

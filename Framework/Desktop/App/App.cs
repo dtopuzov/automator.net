@@ -10,16 +10,20 @@ namespace Framework.Desktop
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly WindowsClient client;
+        private readonly AppClient client;
+        private readonly DesktopClient desktop;
         private readonly AppiumServer server;
 
         public App(Settings settings)
         {
             server = new AppiumServer();
-            client = new WindowsClient(server.Service, settings);
+            client = new AppClient(server.Service, settings);
+            desktop = new DesktopClient(server.Service, settings);
         }
 
         public WindowsDriver<WindowsElement> Driver { get; protected set; }
+
+        public WindowsDriver<WindowsElement> SystemDriver { get; protected set; }
 
         public string Title => Driver.Title;
 
@@ -28,12 +32,19 @@ namespace Framework.Desktop
         public void InitSession()
         {
             server.Start();
+
+            // Start session to app under test
             client.Start();
             Driver = client.Driver;
+
+            // Start session to desktop
+            desktop.Start();
+            SystemDriver = desktop.Driver;
         }
 
         public void QuitSession()
         {
+            desktop.Stop();
             client.Stop();
             server.Stop();
         }
