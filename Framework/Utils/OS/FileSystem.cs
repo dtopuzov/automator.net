@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -33,10 +34,10 @@ namespace Framework.Utils
         /// <param name="path">Path.</param>
         public static void CreateFolder(string path)
         {
-            FileInfo folder = new FileInfo(path);
+            FileInfo folder = new FileInfo(path.ResolveVariables());
             if (!folder.Exists)
             {
-                Directory.CreateDirectory(folder.Directory.FullName);
+                Directory.CreateDirectory(folder.FullName);
             }
         }
 
@@ -46,7 +47,7 @@ namespace Framework.Utils
         /// <param name="path">Path.</param>
         public static void DeleteFolder(string path)
         {
-            FileInfo folder = new FileInfo(path);
+            FileInfo folder = new FileInfo(path.ResolveVariables());
             if (folder.Exists)
             {
                 Directory.Delete(folder.Directory.FullName, true);
@@ -54,20 +55,16 @@ namespace Framework.Utils
         }
 
         /// <summary>
-        /// Remove all invalid PATH symbols of given string.
+        /// Delete file.
         /// </summary>
-        /// <param name="path">String.</param>
-        /// <returns>String with escaped invalid PATH symbols.</returns>
-        public static string NormalizePath(string path)
+        /// <param name="path">Path.</param>
+        public static void DeleteFile(string path)
         {
-            string invalid = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
-
-            foreach (char c in invalid)
+            FileInfo file = new FileInfo(path.ResolveVariables());
+            if (file.Exists)
             {
-                path = path.Replace(c.ToString(), string.Empty);
+                File.Delete(file.FullName);
             }
-
-            return path;
         }
 
         /// <summary>
@@ -77,10 +74,29 @@ namespace Framework.Utils
         /// <returns>Content of file as string.</returns>
         public static string ReadFile(string path)
         {
-            FileInfo fileInfo = new FileInfo(path);
+            FileInfo fileInfo = new FileInfo(path.ResolveVariables());
             if (fileInfo.Exists)
             {
-                return File.ReadAllText(path);
+                return File.ReadAllText(fileInfo.FullName);
+            }
+            else
+            {
+                throw new FileNotFoundException(path + " do not exists!");
+            }
+        }
+
+        /// <summary>
+        /// Read file lines.
+        /// </summary>
+        /// <param name="path">Path to file.</param>
+        /// <returns>Content of file as List of strings.</returns>
+        public static List<string> ReadFileLines(string path)
+        {
+            FileInfo fileInfo = new FileInfo(path.ResolveVariables());
+            if (fileInfo.Exists)
+            {
+                IEnumerable<string> lines = File.ReadLines(fileInfo.FullName);
+                return lines.ToList();
             }
             else
             {

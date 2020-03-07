@@ -2,7 +2,6 @@ using System.IO;
 using System.Reflection;
 using Framework.Utils;
 using log4net;
-using log4net.Config;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
@@ -42,6 +41,12 @@ namespace Framework.Desktop
             // Log beggining of test
             Log.Info("=======================================================");
             Log.Info("Start Test: " + TestContext.CurrentContext.Test.Name);
+
+            // Focus app under test
+            if (Context.App.IsRunning)
+            {
+                Context.App.Driver.SwitchTo().Window(Context.App.Driver.WindowHandles[0]);
+            }
         }
 
         [TearDown]
@@ -77,7 +82,7 @@ namespace Framework.Desktop
                 FileSystem.CreateFolder(Context.Settings.TestResultsFolder);
 
                 // Save actual screenshot of desktop
-                var baseName = FileSystem.NormalizePath(testName);
+                var baseName = testName.NormalizePath();
                 var failedScreenPath = Path.Combine(Context.Settings.TestResultsFolder, baseName + "_desktop.png");
                 ImageUtils.SaveScreenshot(failedScreenPath);
 

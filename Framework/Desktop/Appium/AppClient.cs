@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using Framework.Desktop;
+using Framework.Utils;
 using log4net;
 using NUnit.Framework;
 using OpenQA.Selenium.Appium;
@@ -52,6 +53,19 @@ namespace Framework.Appium
             // Set implicit timeout to auto wait for element when try to find it
             Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(settings.Timeout);
 
+            // Wait for splash screen to disappear
+            if (settings.AppTitle != null)
+            {
+                var titleFound = Wait.Until(() => GetTitle().Contains(settings.AppTitle), timeout: settings.Timeout);
+                if (!titleFound)
+                {
+                    FileSystem.CreateFolder(settings.TestResultsFolder);
+                    var failedScreenPath = Path.Combine(settings.TestResultsFolder, "desktop.png");
+                    ImageUtils.SaveScreenshot(failedScreenPath);
+                    Assert.Fail("Failed to find window with name: " + settings.AppTitle);
+                }
+            }
+
             // Set app possition and size
             if (settings.Size != null)
             {
@@ -70,6 +84,26 @@ namespace Framework.Appium
             {
                 Driver.Quit();
                 Log.Info("Stop Appium session to app under test.");
+            }
+        }
+
+        private string GetTitle()
+        {
+            try
+            {
+                if (Driver.WindowHandles.Count > 0)
+                {
+                    Driver.SwitchTo().Window(Driver.WindowHandles[0]);
+                    return Driver.Title;
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+            catch
+            {
+                return string.Empty;
             }
         }
     }

@@ -33,13 +33,13 @@ namespace Framework.Desktop
         {
             server.Start();
 
-            // Start session to app under test
-            client.Start();
-            Driver = client.Driver;
-
             // Start session to desktop
             desktop.Start();
             SystemDriver = desktop.Driver;
+
+            // Start session to app under test
+            client.Start();
+            Driver = client.Driver;
         }
 
         public void QuitSession()
@@ -76,6 +76,12 @@ namespace Framework.Desktop
         {
             Driver.Manage().Window.Size = new Size(width, height);
             Log.Info(string.Format("Set window size to {0}x{1}", width, height));
+        }
+
+        public void SetSize(Size size)
+        {
+            Driver.Manage().Window.Size = size;
+            Log.Info(string.Format("Set window size to {0}x{1}", size.Width, size.Height));
         }
 
         public void SetPosition(int x, int y)

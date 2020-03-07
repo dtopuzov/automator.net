@@ -22,8 +22,9 @@ namespace Framework.Utils
         /// <param name="filePath">Path.</param>
         public static void SaveScreenshot(string filePath)
         {
-            var image = ScreenCapturer.CaptureDesktop();
-            image.Save(filePath, ImageFormat.Png);
+            Image image = ScreenCapturer.CaptureDesktop();
+            Bitmap bitmap = new Bitmap(image);
+            bitmap.Save(filePath, ImageFormat.Png);
         }
 
         /// <summary>
@@ -107,7 +108,6 @@ namespace Framework.Utils
             else
             {
                 // Save actual image as expected if expected image do not exists (and return false).
-                FileSystem.CreateFolder(expectedImagePath);
                 actualImage.Save(expectedImagePath);
                 actualImage.Dispose();
 

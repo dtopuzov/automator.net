@@ -1,8 +1,9 @@
 ﻿using System;
+using System.IO;
 
 namespace Framework.Utils
 {
-    public static class ResolveVariablesExtension
+    public static class PathExtensions
     {
         /// <summary>
         /// Resolve windows environment variables inside string.
@@ -20,6 +21,23 @@ namespace Framework.Utils
             {
                 return text;
             }
+        }
+
+        /// <summary>
+        /// Remove all invalid PATH symbols of given string.
+        /// </summary>
+        /// <param name="path">String.</param>
+        /// <returns>String with escaped invalid PATH symbols.</returns>
+        public static string NormalizePath(this string path)
+        {
+            string invalid = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+
+            foreach (char c in invalid)
+            {
+                path = path.Replace(c.ToString(), string.Empty);
+            }
+
+            return path;
         }
     }
 }
