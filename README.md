@@ -3,7 +3,6 @@
 [![CI Status](https://github.com/dtopuzov/automator.net/workflows/CI/badge.svg)](https://github.com/dtopuzov/automator.net)
 ![LICENSE](https://img.shields.io/badge/license-%20Apache--2.0-brightgreen.svg)
 [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=flat )](https://github.com/dtopuzov/automator.net/pulls)
-[![GitHub stars](https://img.shields.io/github/stars/dtopuzov/automator.net.svg?style=flat&color=brightgreen)](https://github.com/dtopuzov/automator.net/stargazers)
 
 ## About
 
