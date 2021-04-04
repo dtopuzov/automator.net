@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Folder Include="Desktop\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Appium.WebDriver" Version="4.3.1" />
+        <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
+        <PackageReference Include="NUnit" Version="3.13.1" />
+        <PackageReference Include="Selenium.Axe" Version="2.0.3" />
+        <PackageReference Include="Selenium.Support" Version="4.0.0-beta2" />
+        <PackageReference Include="Selenium.WebDriver" Version="4.0.0-beta2" />
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+        <PackageReference Include="WebDriverManager" Version="2.11.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="C:\Git\automator.net\src\.editorconfig" />
+    </ItemGroup>
+
+</Project>
