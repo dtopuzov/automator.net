@@ -26,9 +26,6 @@
       <None Update="appsettings.safari.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="appsettings.edge.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
       <None Update="appsettings.chrome.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>

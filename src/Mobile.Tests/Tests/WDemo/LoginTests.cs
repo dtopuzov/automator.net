@@ -1,8 +1,9 @@
+using Automator.Mobile;
 using NUnit.Framework;
 
 namespace Mobile.Tests.Tests.WDemo
 {
-    public class LoginTests
+    public class LoginTests : MobileTest
     {
         [SetUp]
         public void Setup()

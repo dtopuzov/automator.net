@@ -1,6 +1,7 @@
 using System.Drawing;
 using Automator.Shared.VisualTesting;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Internal;
 
 namespace Automator.Web.Extensions
 {

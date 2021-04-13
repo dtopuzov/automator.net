@@ -4,11 +4,9 @@ using Automator.Shared.Utils;
 using Automator.Web.Enums;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Safari;
 using WebDriverManager.DriverConfigs.Impl;
-using WebDriverManager.Helpers;
 
 namespace Automator.Web
 {
@@ -30,7 +28,6 @@ namespace Automator.Web
             Driver = ((object)settings.BrowserType) switch
             {
                 BrowserType.Chrome => ChromeDriver(),
-                BrowserType.Edge => EdgeDriver(),
                 BrowserType.Firefox => FirefoxDriver(),
                 BrowserType.Safari => SafariDriver(),
                 _ => throw new InvalidOperationException($"{settings.BrowserType} is not supported browser type."),
@@ -72,45 +69,6 @@ namespace Automator.Web
 
             // Init driver (start browser).
             return new ChromeDriver(ChromeDriverService.CreateDefaultService(), options, TimeSpan.FromMinutes(3));
-        }
-
-        /// <summary>
-        /// Creates <see cref="OpenQA.Selenium.Edge.EdgeDriver"/> instance.
-        /// </summary>
-        /// <returns>A new instance of <see cref="OpenQA.Selenium.Edge.EdgeDriver"/>.</returns>
-        private IWebDriver EdgeDriver()
-        {
-            // Download and configure driver binary.
-            var edgeBrowserVersion = RegistryHelper.GetInstalledBrowserVersion("msedge.exe");
-            new WebDriverManager.DriverManager().SetUpDriver(new EdgeConfig(), version: edgeBrowserVersion);
-
-            // Init driver (start browser).
-            var options = new EdgeOptions
-            {
-                PageLoadStrategy = PageLoadStrategy.Default
-            };
-            options.AddArgument("--disable-gpu");
-            options.AddArgument("--ignore-certificate-errors");
-            options.SetLoggingPreference(LogType.Browser, LogLevel.All);
-            options.AddUserProfilePreference("download.default_directory", FileSystem.ProjectRoot);
-
-            if (settings.Headless)
-            {
-                options.AddArguments("headless");
-            }
-
-            if (settings.BrowserSize != Size.Empty)
-            {
-                options.AddArgument($"--window-size={settings.BrowserSize.Width},{settings.BrowserSize.Height}");
-            }
-            else
-            {
-                options.AddArgument("--start-maximized");
-            }
-
-            // Init driver (start browser).
-            var service = EdgeDriverService.CreateChromiumService();
-            return new EdgeDriver(service, options, TimeSpan.FromMinutes(3));
         }
 
         /// <summary>
