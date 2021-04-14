@@ -4,13 +4,14 @@ using System.Drawing;
 using System.IO;
 using Automator.Shared.VisualTesting;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Interactions;
 using SeleniumExtras.WaitHelpers;
 
 namespace Automator.Mobile
 {
     /// <summary>
-    /// Browser abstraction.
+    /// Mobile app abstraction.
     /// </summary>
     public class App
     {
@@ -32,26 +33,39 @@ namespace Automator.Mobile
         }
 
         /// <summary>
-        /// Gets <see cref="IWebDriver"/> instance associated with current browser.
+        /// Gets <see cref="AppiumDriver"/> instance associated with current application.
         /// </summary>
-        public IWebDriver Driver { get; private set; }
+        public AppiumDriver<AppiumWebElement> Driver { get; private set; }
 
         /// <summary>
-        /// Gets <see cref="WebDriverWait"/> instance associated with current browser.
+        /// Gets <see cref="WebDriverWait"/> instance associated with current application.
         /// </summary>
         public OpenQA.Selenium.Support.UI.WebDriverWait Wait { get; private set; }
 
         /// <summary>
-        /// Gets or sets browser size.
+        /// Gets the size of mobile device.
         /// </summary>
-        public Size Size
+        public Size Size => Driver.Manage().Window.Size;
+
+        /// <summary>
+        /// Restart application.
+        /// </summary>
+        /// <param name="seconds">Duration to be in background in seconds.</param>
+        public void RunInBackground(int seconds = 10)
         {
-            get => Driver.Manage().Window.Size;
-            set => Driver.Manage().Window.Size = value;
+            Driver.BackgroundApp(TimeSpan.FromSeconds(seconds));
         }
 
         /// <summary>
-        /// Stop currently running browser.
+        /// Restart application.
+        /// </summary>
+        public void Restart()
+        {
+            Driver.ResetApp();
+        }
+
+        /// <summary>
+        /// Stop currently running application.
         /// </summary>
         public void Stop()
         {
@@ -63,14 +77,14 @@ namespace Automator.Mobile
         /// </summary>
         /// <param name="locator"><see cref="By"/> locator.</param>
         /// <param name="waitForExistence">If true it will wait until some results are found, otherwise will just return current state without any wait.</param>
-        /// <returns>Instance of <see cref="IWebElement"/> when it exists, otherwise null.</returns>
-        public IWebElement Find(By locator, bool waitForExistence = true)
+        /// <returns>Instance of <see cref="AppiumWebElement"/> when it exists, otherwise null.</returns>
+        public AppiumWebElement Find(By locator, bool waitForExistence = true)
         {
             try
             {
                 if (waitForExistence)
                 {
-                    return Wait.Until(ExpectedConditions.ElementIsVisible(locator));
+                    return (AppiumWebElement)Wait.Until(ExpectedConditions.ElementIsVisible(locator));
                 }
                 else
                 {
@@ -87,20 +101,12 @@ namespace Automator.Mobile
         /// Find elements by given locator.
         /// </summary>
         /// <param name="locator"><see cref="By"/> locator.</param>
-        /// <param name="waitForExistence">If true it will wait until some results are found, otherwise will just return current state without any wait.</param>
         /// <returns><see cref="ReadOnlyCollection"/> of elements when found, otherwise null.</returns>
-        public ReadOnlyCollection<IWebElement> FindAll(By locator, bool waitForExistence = true)
+        public ReadOnlyCollection<AppiumWebElement> FindAll(By locator)
         {
             try
             {
-                if (waitForExistence)
-                {
-                    return Wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(locator));
-                }
-                else
-                {
-                    return Driver.FindElements(locator);
-                }
+                return Driver.FindElements(locator);
             }
             catch
             {
@@ -121,8 +127,8 @@ namespace Automator.Mobile
         /// <summary>
         /// Click on element.
         /// </summary>
-        /// <param name="element">Instance of <see cref="IWebElement"/>.</param>
-        public void Click(IWebElement element)
+        /// <param name="element">Instance of <see cref="AppiumWebElement"/>.</param>
+        public void Click(AppiumWebElement element)
         {
             Wait.Until(ExpectedConditions.ElementToBeClickable(element));
             new Actions(Driver).MoveToElement(element).Click().Build().Perform();
@@ -131,10 +137,10 @@ namespace Automator.Mobile
         /// <summary>
         /// Type text in element.
         /// </summary>
-        /// <param name="element">Instance of <see cref="IWebElement"/>.</param>
+        /// <param name="element">Instance of <see cref="AppiumWebElement"/>.</param>
         /// <param name="text">Text to be typed.</param>
         /// <param name="clearBeforeType">If true clear content before type.</param>
-        public void Type(IWebElement element, string text, bool clearBeforeType = true)
+        public void Type(AppiumWebElement element, string text, bool clearBeforeType = true)
         {
             Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(element));
 

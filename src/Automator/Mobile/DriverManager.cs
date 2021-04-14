@@ -1,7 +1,9 @@
 using System;
+using System.Diagnostics;
 using OpenQA.Selenium.Appium;
+using OpenQA.Selenium.Appium.Android;
 using OpenQA.Selenium.Appium.Enums;
-using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Appium.iOS;
 
 namespace Automator.Mobile
 {
@@ -10,7 +12,7 @@ namespace Automator.Mobile
     /// </summary>
     internal class DriverManager
     {
-        private readonly MobileSettings settings;
+        private readonly AppiumDriver<AppiumWebElement> driver;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DriverManager"/> class.
@@ -19,12 +21,16 @@ namespace Automator.Mobile
         /// <param name="appiumServerUri">Uri of Appium server as <see cref="Uri"/>.</param>
         internal DriverManager(MobileSettings settings, Uri appiumServerUri)
         {
-            this.settings = settings;
             var capabilities = GetCapabilities(settings);
-            Driver = new RemoteWebDriver(appiumServerUri, capabilities);
+            driver = ((object)settings.Platform) switch
+            {
+                MobilePlatform.Android => new AndroidDriver<AppiumWebElement>(appiumServerUri, capabilities),
+                MobilePlatform.IOS => new IOSDriver<AppiumWebElement>(appiumServerUri, capabilities),
+                _ => throw new InvalidOperationException($"{settings.Platform} is invalid mobile platform."),
+            };
         }
 
-        internal RemoteWebDriver Driver { get; private set; }
+        internal AppiumDriver<AppiumWebElement> Driver => driver;
 
         private static AppiumOptions GetCapabilities(MobileSettings settings)
         {
@@ -47,6 +53,15 @@ namespace Automator.Mobile
             if (settings.AvdArgs != null)
             {
                 capabilities.AddAdditionalCapability(AndroidMobileCapabilityType.AvdArgs, settings.AvdArgs);
+            }
+
+            if (Debugger.IsAttached)
+            {
+                capabilities.AddAdditionalCapability(MobileCapabilityType.NewCommandTimeout, "3600");
+            }
+            else
+            {
+                capabilities.AddAdditionalCapability(MobileCapabilityType.NewCommandTimeout, "180");
             }
 
             return capabilities;

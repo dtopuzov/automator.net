@@ -4,7 +4,7 @@
         "PlaygroundTests": {
             "commandName": "Project",
             "environmentVariables": {
-                "CONFIG": "samsung"
+                "CONFIG": "android"
             }
         }
     }

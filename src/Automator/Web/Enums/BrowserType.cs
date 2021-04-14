@@ -6,7 +6,6 @@ namespace Automator.Web.Enums
     public enum BrowserType
     {
         Chrome,
-        Edge,
         Firefox,
         Safari
     }

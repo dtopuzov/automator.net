@@ -7,6 +7,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Safari;
 using WebDriverManager.DriverConfigs.Impl;
+using WebDriverManager.Helpers;
 
 namespace Automator.Web
 {
@@ -43,7 +44,7 @@ namespace Automator.Web
         private IWebDriver ChromeDriver()
         {
             // Download and configure driver binary.
-            new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
+            new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
 
             // Construct Chrome options.
             var options = new ChromeOptions();
@@ -78,7 +79,7 @@ namespace Automator.Web
         private IWebDriver FirefoxDriver()
         {
             // Download and configure driver binary.
-            new WebDriverManager.DriverManager().SetUpDriver(new FirefoxConfig());
+            new WebDriverManager.DriverManager().SetUpDriver(new FirefoxConfig(), VersionResolveStrategy.MatchingBrowser);
 
             // Construct firefox profile
             var profile = new FirefoxProfile();

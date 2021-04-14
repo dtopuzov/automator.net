@@ -1,4 +1,5 @@
 using Automator.Shared.Appium;
+using Automator.Shared.Utils;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
@@ -13,6 +14,10 @@ namespace Automator.Mobile
         [OneTimeSetUp]
         public virtual void OneTimeSetUp()
         {
+            // Temporary hack
+            // TODO: Remove it!
+            Process.KillProcessByName("node.exe");
+
             var settings = new MobileSettings();
 
             server = new AppiumServer();
