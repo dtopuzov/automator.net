@@ -1,4 +1,4 @@
-name: .NET
+name: CI
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  unit-tests:
+  e2e-tests-linux:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -15,6 +15,14 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
+    - name: Setup NodeJS
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+    - name: Install Appium
+      run: |
+        npm i -g appium@2.0.0-beta.19
+        appium driver install uiautomator2
     - name: Restore dependencies
       run: dotnet restore ./src
     - name: Build
@@ -29,6 +37,14 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
+    - name: Setup NodeJS
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+    - name: Install Appium
+      run: |
+        npm i -g appium@2.0.0-beta.19
+        appium driver install windows
     - name: Restore dependencies
       run: dotnet restore ./src
     - name: Build
@@ -37,3 +53,32 @@ jobs:
       run: dotnet test ./src/Automator.Tests.Notepad --no-build --verbosity normal
     - name: Test Modern App
       run: dotnet test ./src/Automator.Tests.Calculator --no-build --verbosity normal
+  e2e-tests-macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Setup NodeJS
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+    - name: Install Appium
+      run: |
+        npm i -g appium@2.0.0-beta.19
+        appium driver install xcuitest
+        appium driver install mac2
+    - name: Restore dependencies
+      run: dotnet restore ./src
+    - name: Build
+      run: dotnet build ./src --no-restore
+    - name: Test iOS App
+      run: |
+        export CONFIG=ios
+        dotnet test ./src/Automator.Tests.Mobile --no-build --verbosity normal
+    - name: Test macOS App
+      run: |
+        export CONFIG=ios
+        dotnet test ./src/Automator.Tests.Calculator --no-build --verbosity normal
