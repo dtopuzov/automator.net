@@ -4,7 +4,7 @@ $destination = 'Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'
 Invoke-RestMethod -Uri $source -OutFile $destination
 
 # Enable Add-AppPackage
-Import-Module Appx -usewindowspowershell
+Import-Module Appx
 
 # Install winget
 Add-AppPackage -AllUsers -path $destination
