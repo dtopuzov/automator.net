@@ -7,7 +7,7 @@ Invoke-RestMethod -Uri $source -OutFile $destination
 Import-Module Appx
 
 # Install winget
-Add-AppPackage -AllUsers -path $destination
+Add-AppPackage -path $destination
 
 # Install Windows Calculator
 winget install "Windows Calculator" --force --silent --accept-package-agreements
