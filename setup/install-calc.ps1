@@ -5,10 +5,9 @@ Invoke-RestMethod -Uri $source -OutFile $destination
 
 # Enable Add-AppPackage
 Import-Module -Name Appx -UseWindowsPowerShell -WarningAction SilentlyContinue
-$WarningPreference = $Before_WarningPreference
 
 # Install winget
-Add-AppPackage -path $destination
+Add-AppPackage -AllUsers -path $destination
 
 # Install Windows Calculator
 winget install "Windows Calculator" --force --silent --accept-package-agreements
