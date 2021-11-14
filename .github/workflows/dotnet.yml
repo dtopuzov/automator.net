@@ -53,7 +53,7 @@ jobs:
       run: dotnet test ./src/Automator.Tests.Notepad --no-build --verbosity normal
     - name: Test Modern App
       run: |
-        Import-Module Appx -usewindowspowershell
+        Import-Module Appx -SkipEditionCheck -usewindowspowershell
         Get-AppxPackage *windowscalculator* | Select PackageFamilyName
         dotnet test ./src/Automator.Tests.Calculator --no-build --verbosity normal
   e2e-tests-macos:
@@ -84,7 +84,7 @@ jobs:
       run: dotnet build ./src --no-restore
     - name: Test macOS App
       run: |
-        export CONFIG=ios
+        export CONFIG=mac
         dotnet test ./src/Automator.Tests.Calculator --no-build --verbosity normal
     - name: Test iOS App
       run: |
