@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "Tests": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "CONFIG": "android"
+      }
+    }
+  }
+}
