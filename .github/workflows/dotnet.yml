@@ -49,13 +49,13 @@ jobs:
       run: dotnet restore ./src
     - name: Build
       run: dotnet build ./src --no-restore
-    - name: Test Classic App
-      run: dotnet test ./src/Automator.Tests.Notepad --no-build --verbosity normal
     - name: Test Modern App
       run: |
-        Import-Module Appx -SkipEditionCheck -usewindowspowershell
+        Import-Module -Name Appx -UseWIndowsPowershell
         Get-AppxPackage *windowscalculator* | Select PackageFamilyName
         dotnet test ./src/Automator.Tests.Calculator --no-build --verbosity normal
+    - name: Test Classic App
+      run: dotnet test ./src/Automator.Tests.Notepad --no-build --verbosity normal
   e2e-tests-macos:
     runs-on: macos-11
     steps:
@@ -86,7 +86,3 @@ jobs:
       run: |
         export CONFIG=mac
         dotnet test ./src/Automator.Tests.Calculator --no-build --verbosity normal
-    - name: Test iOS App
-      run: |
-        export CONFIG=ios
-        dotnet test ./src/Automator.Tests.Mobile --no-build --verbosity normal
