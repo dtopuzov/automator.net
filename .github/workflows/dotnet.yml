@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ add-ci ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -52,8 +52,6 @@ jobs:
       run: dotnet restore ./src
     - name: Build
       run: dotnet build ./src --no-restore
-    - name: Test Modern App
-      run: dotnet test ./src/Automator.Tests.Calculator --no-build --verbosity normal
     - name: Test Classic App
       run: dotnet test ./src/Automator.Tests.Notepad --no-build --verbosity normal
   e2e-tests-macos:
