@@ -1,7 +1,7 @@
 # Automator.NET
 
 ![LICENSE](https://img.shields.io/badge/license-%20Apache--2.0-brightgreen.svg) 
-[![CI Status](https://github.com/dtopuzov/automator.net/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/dtopuzov/automator.net/actions/workflows/dotnet.yml?query=branch%main)
+[![CI Status](https://github.com/dtopuzov/automator.net/actions/workflows/dotnet.yml/badge.svg)](https://github.com/dtopuzov/automator.net/actions/workflows/dotnet.yml)
 
 ## About
 
