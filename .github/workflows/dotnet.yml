@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  e2e-tests-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Setup NodeJS
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+    - name: Install Appium
+      run: |
+        npm i -g appium@2.0.0-beta.19
+        appium driver install uiautomator2
+    - name: Restore dependencies
+      run: dotnet restore ./src
+    - name: Build
+      run: dotnet build ./src --no-restore
+    - name: Unit Test
+      run: dotnet test ./src/Automator.Tests.Unit --no-build --verbosity normal
+  e2e-tests-windows:
+    runs-on: windows-2019
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Setup NodeJS
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+    - name: Install Appium
+      run: |
+        npm i -g appium@2.0.0-beta.19
+        appium driver install windows
+    - name: Restore dependencies
+      run: dotnet restore ./src
+    - name: Build
+      run: dotnet build ./src --no-restore
+    - name: Test Classic App
+      run: dotnet test ./src/Automator.Tests.Notepad --no-build --verbosity normal
+  e2e-tests-macos:
+    runs-on: macos-11
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set default Xcode 13.0
+      run: |
+        XCODE_ROOT=/Applications/Xcode_13.0.app
+        echo "MD_APPLE_SDK_ROOT=$XCODE_ROOT" >> $GITHUB_ENV
+        sudo xcode-select -s $XCODE_ROOT
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Setup NodeJS
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+    - name: Install Appium
+      run: |
+        npm i -g appium@2.0.0-beta.19
+        appium driver install xcuitest
+        appium driver install mac2
+    - name: Restore dependencies
+      run: dotnet restore ./src
+    - name: Build
+      run: dotnet build ./src --no-restore
+    - name: Test macOS App
+      run: |
+        export CONFIG=mac
+        dotnet test ./src/Automator.Tests.Calculator --no-build --verbosity normal
