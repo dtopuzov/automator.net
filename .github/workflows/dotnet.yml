@@ -33,6 +33,8 @@ jobs:
     runs-on: windows-2022
     steps:
     - uses: actions/checkout@v2
+    - name: Install Windows Calculator
+      run: ./setup/install-calc.ps1
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
@@ -50,10 +52,7 @@ jobs:
     - name: Build
       run: dotnet build ./src --no-restore
     - name: Test Modern App
-      run: |
-        Import-Module -Name Appx -UseWIndowsPowershell
-        Get-AppxPackage *windowscalculator* | Select PackageFamilyName
-        dotnet test ./src/Automator.Tests.Calculator --no-build --verbosity normal
+      run: dotnet test ./src/Automator.Tests.Calculator --no-build --verbosity normal
     - name: Test Classic App
       run: dotnet test ./src/Automator.Tests.Notepad --no-build --verbosity normal
   e2e-tests-macos:
