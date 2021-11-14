@@ -30,7 +30,7 @@ jobs:
     - name: Unit Test
       run: dotnet test ./src/Automator.Tests.Unit --no-build --verbosity normal
   e2e-tests-windows:
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
