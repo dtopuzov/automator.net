@@ -4,7 +4,7 @@ $destination = 'Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'
 Invoke-RestMethod -Uri $source -OutFile $destination
 
 # Install winget
-Import-Module -Name Appx -UseWindowsPowerShell -WarningAction SilentlyContinue
+Import-Module Appx -usewindowspowershell
 Add-AppPackage -path $destination
 
 # Install Windows Calculator
