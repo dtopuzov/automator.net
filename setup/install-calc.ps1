@@ -3,8 +3,11 @@ $source = 'https://github.com/microsoft/winget-cli/releases/download/v1.1.12653/
 $destination = 'Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'
 Invoke-RestMethod -Uri $source -OutFile $destination
 
+# Enable Add-AppPackage
+Import-Module -Name Appx -UseWindowsPowerShell -WarningAction SilentlyContinue
+$WarningPreference = $Before_WarningPreference
+
 # Install winget
-Import-Module Appx -usewindowspowershell
 Add-AppPackage -path $destination
 
 # Install Windows Calculator
