@@ -10,7 +10,7 @@ namespace Automator.Tests.Mobile.Tests
         {
             App.Click(MobileBy.AccessibilityId("Home"));
 
-            var looksOK = App.CompareScreen("home-page", tolerance: 0.1);
+            var looksOK = App.CompareScreen("home-page", tolerance: 0.5);
             Assert.True(looksOK, "Home page does not look ok.");
         }
 
@@ -19,7 +19,7 @@ namespace Automator.Tests.Mobile.Tests
         {
             App.Click(MobileBy.AccessibilityId("Login"));
 
-            var looksOK = App.CompareScreen("login-page", tolerance: 0.1);
+            var looksOK = App.CompareScreen("login-page", tolerance: 0.5);
             Assert.True(looksOK, "Login page does not look ok.");
         }
     }

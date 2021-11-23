@@ -11,6 +11,7 @@ namespace Automator.Tests.Mobile
         public void ClassInit()
         {
             App = Setup.App;
+            App.Driver.ResetApp();
         }
 
         [SetUp]
