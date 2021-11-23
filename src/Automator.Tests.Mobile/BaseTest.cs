@@ -5,10 +5,13 @@ namespace Automator.Tests.Mobile
     [TestFixture]
     public class BaseTest
     {
+        public static App App { get; private set; }
+
         [OneTimeSetUp]
         public void ClassInit()
         {
-            var a = Setup.App.Driver;
+            App = Setup.App;
+            App.Driver.ResetApp();
         }
 
         [SetUp]

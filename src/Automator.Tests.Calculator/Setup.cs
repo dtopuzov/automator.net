@@ -8,11 +8,7 @@ namespace Automator.Tests.Calculator
     [SetUpFixture]
     public class Setup
     {
-        private AppiumServer server;
-
-        public static App App { get; set; }
-
-        public static Settings Settings { get; set; }
+        public static AppiumServer Server { get; private set; }
 
         /// <summary>
         /// Executes once before the test run.
@@ -20,11 +16,8 @@ namespace Automator.Tests.Calculator
         [OneTimeSetUp]
         public void GlobalSetup()
         {
-            server = new AppiumServer();
-            server.Start();
-
-            Settings = new Settings();
-            App = new App(Settings, server.Service.ServiceUrl);
+            Server = new AppiumServer();
+            Server.Start();
         }
 
         /// <summary>
@@ -33,8 +26,7 @@ namespace Automator.Tests.Calculator
         [OneTimeTearDown]
         public void GlobalTearDown()
         {
-            App.Stop();
-            server.Stop();
+            Server.Stop();
         }
     }
 }

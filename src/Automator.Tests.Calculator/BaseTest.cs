@@ -5,9 +5,15 @@ namespace Automator.Tests.Calculator
     [TestFixture]
     public class BaseTest
     {
+        private static App app;
+
+        public static Calc Calc { get; private set; }
+
         [OneTimeSetUp]
         public void ClassInit()
         {
+            app = new App(new Settings(), Setup.Server.Service.ServiceUrl);
+            Calc = new Calc(app);
         }
 
         [SetUp]
@@ -25,8 +31,7 @@ namespace Automator.Tests.Calculator
         [OneTimeTearDown]
         public void ClassCleanup()
         {
-            // Runs once after all tests in this class are executed. (Optional)
-            // Not guaranteed that it executes instantly after all tests from the class.
+            app.Stop();
         }
     }
 }

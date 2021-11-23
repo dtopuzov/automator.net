@@ -7,7 +7,7 @@ namespace Automator.Tests.Calculator.Tests
         [Test]
         public void ShouldLookOK()
         {
-            Assert.Pass();
+            Calc.SetSize(400, 500);
         }
     }
 }
